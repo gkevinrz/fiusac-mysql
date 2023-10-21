@@ -84,8 +84,10 @@ CREATE TABLE IF NOT EXISTS asignacion
  seccion CHAR(1)    NOT NULL,
  codigo INTEGER UNSIGNED NOT NULL,
  carnet BIGINT UNSIGNED NOT NULL,
+ id_habilitacion INTEGER UNSIGNED NOT NULL,
  FOREIGN KEY (codigo) REFERENCES curso (codigo),
- FOREIGN KEY (carnet) REFERENCES estudiante(carnet)
+ FOREIGN KEY (carnet) REFERENCES estudiante(carnet),
+  FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 );
 
 # Table Habilitacion------------------------------------------------------------
@@ -106,9 +108,9 @@ CREATE TABLE IF NOT EXISTS habilitacion
 # Tabla horario --------------------------------------------
 CREATE TABLE IF NOT EXISTS horario
 (id_horario INTEGER UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
- id_habilitacion  INTEGER UNSIGNED NOT NULL,
- dia TINYINT UNSIGNED NOT NULL,
- horario VARCHAR(10) NOT NULL,
+ id_habilitacion  INTEGER NOT NULL,
+ dia TINYINT NOT NULL,
+ horario VARCHAR(15) NOT NULL,
  FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 );
 
