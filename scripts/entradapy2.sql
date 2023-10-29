@@ -1,4 +1,4 @@
-# Creacion de carreras
+-- REGISTRO DE CARRERAS
 CALL crearCarrera('Ingenieria Civil');       -- 1  VALIDAR QUE LES QUEDE ESTE ID EN LA CARRERA CORRESPONDIENTE
 CALL crearCarrera('Ingenieria Industrial');  -- 2  VALIDAR QUE LES QUEDE ESTE ID EN LA CARRERA CORRESPONDIENTE
 CALL crearCarrera('Ingenieria Sistemas');    -- 3  VALIDAR QUE LES QUEDE ESTE ID EN LA CARRERA CORRESPONDIENTE
@@ -10,16 +10,14 @@ CALL crearCarrera('Ingenieria Ambiental');   -- 8  VALIDAR QUE LES QUEDE ESTE ID
 CALL crearCarrera('Ingenieria Materiales');  -- 9  VALIDAR QUE LES QUEDE ESTE ID EN LA CARRERA CORRESPONDIENTE
 CALL crearCarrera('Ingenieria Textil');      -- 10 VALIDAR QUE LES QUEDE ESTE ID EN LA CARRERA CORRESPONDIENTE
 
-/*----------------------------------------------------------------------------------------------------*/
-#Creacion Docentes
+-- REGISTRO DE DOCENTES
 CALL registrarDocente('Docente1','Apellido1','30-10-1999','aadf@ingenieria.usac.edu.gt',12345678,'direccion',12345678910,1);
 CALL registrarDocente('Docente2','Apellido2','20-11-1999','docente2@ingenieria.usac.edu.gt',12345678,'direcciondocente2',12345678911,2);
 CALL registrarDocente('Docente3','Apellido3','20-12-1980','docente3@ingenieria.usac.edu.gt',12345678,'direcciondocente3',12345678912,3);
 CALL registrarDocente('Docente4','Apellido4','20-11-1981','docente4@ingenieria.usac.edu.gt',12345678,'direcciondocente4',12345678913,4);
 CALL registrarDocente('Docente5','Apellido5','20-09-1982','docente5@ingenieria.usac.edu.gt',12345678,'direcciondocente5',12345678914,5);
 
-/*--------------------------------------------------------------------------------*/
-# Registro estudiantes
+-- REGISTRO DE ESTUDIANTES
 -- SISTEMAS
 CALL registrarEstudiante(202000001,'Estudiante de','Sistemas Uno','30-10-1999','sistemasuno@gmail.com',12345678,'direccion estudiantes sistemas 1',337859510101,3);
 CALL registrarEstudiante(202000002,'Estudiante de','Sistemas Dos','3-5-2000','sistemasdos@gmail.com',12345678,'direccion estudiantes sistemas 2',32781580101,3);
@@ -36,16 +34,12 @@ CALL registrarEstudiante(202300002, 'Estudiante de','Electronica Dos', '01-01-20
 -- ESTUDIANTES RANDOM
 CALL registrarEstudiante(201710160, 'ESTUDIANTE','SISTEMAS RANDOM','20-08-1994','estudiasist@gmail.com',89765432,'direccionestudisist random',29791580101,3);
 CALL registrarEstudiante(201710161, 'ESTUDIANTE','CIVIL RANDOM','20-08-1995','estudiacivl@gmail.com',89765432,'direccionestudicivl random',30791580101,1);
-/*------------------------------------------------------------------------*/
 
+-- AGREGAR CURSO
 -- aqui se debe de agregar el AREA COMUN a carrera
 -- Insertar el registro con id 0
-INSERT INTO carrera (id_carrera,nombre) VALUES (0,'Area Comun');
-UPDATE carrera SET id_carrera = 0 WHERE id_carrera = LAST_INSERT_ID();
-
-
-/*---------------------------------------------------------------------------*/
-# Crear curso
+INSERT INTO carrera (id,nombre) VALUES (0,'Area Comun');
+UPDATE carrera SET id = 0 WHERE id = LAST_INSERT_ID();
 -- AREA COMUN
 CALL crearCurso(0006,'Idioma Tecnico 1',0,7,0,false); 
 CALL crearCurso(0007,'Idioma Tecnico 2',0,7,0,false);
@@ -80,113 +74,3 @@ CALL crearCurso(422,'Curso Electronica 2',4,4,4,true);
 CALL crearCurso(423,'Curso Electronica 3',8,4,4,false);
 CALL crearCurso(424,'Curso Electronica 4',12,4,4,true);
 CALL crearCurso(425,'Curso Electronica 5',16,4,4,true);
-
-
-
-/*------------------------------------------------------------------------------------------*/
-# Habilitar Curso
-
--- IDIOMA TECNICO -----------------------------------------------------------
-CALL habilitarCurso(0006,"1S",1,110,"A");
-CALL habilitarCurso(0006,"VJ",1,110,"P");
-CALL habilitarCurso(0006,"2S",1,110,"A");
-CALL habilitarCurso(0006,"2S",1,110,"B");
-
-
-
-
-
-# Agregar horario ----------------------------------------------------------------------------------------------
-/* ------IDIOMA TECNICO HORARIO -------------------------------------*/
-
-call agregarHorario(1,1,'07:00-09:00');
-call agregarHorario(1,2,'10:00-10:50');
-call agregarHorario(1,3,'07:00-09:00');
-call agregarHorario(1,4,'07:00-09:00');
-call agregarHorario(1,5,'07:00-09:00');
-
-call agregarHorario(2,1,'17:00-19:00');
-call agregarHorario(2,2,'17:00-19:00');
-call agregarHorario(2,3,'17:00-19:00');
-call agregarHorario(2,4,'17:00-19:00');
-call agregarHorario(2,5,'17:00-19:00');
-
-
-call agregarHorario(3,1,'07:00-09:00');
-call agregarHorario(3,2,'10:00-10:50');
-call agregarHorario(3,3,'07:00-09:00');
-call agregarHorario(3,4,'07:00-09:00');
-call agregarHorario(3,5,'07:00-09:00');
-
-call agregarHorario(4,1,'07:00-09:00');
-call agregarHorario(4,2,'10:00-10:50');
-call agregarHorario(4,3,'07:00-09:00');
-call agregarHorario(4,4,'07:00-09:00');
-call agregarHorario(4,5,'07:00-09:00');
-
-/* -----------------------------------------*/
-
-
-
-# Asignar Curso -------------------------------------------------------------
-
-CALL asignarCurso(0006,"1S","A",202000001);
-CALL asignarCurso(0006,"1S","A",202000002);
-CALL asignarCurso(0006,"1S","A",202000003);
-CALL asignarCurso(0006,"1S","A",202100001);
-
-
-#Prueba año 2024
-CALL asignarCurso2(101,"1S","A",201906558);
-
-
-/* Desasignacion de cursos -----------------------------------------------*/
-CALL desasignarCurso(0006,"1S","B",202000001);
-SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=1 AND dsg.id_habilitacion=1;
-
-
-
-
-/* Ingreso de notas ------------------------------------------------------------------------*/
-CALL ingresarNota(0006,"1S","A",202000002,60.5);
-CALL ingresarNota(0006,"1S","A",202000003,98.5);
-
-CALL ingresarNota(0006,"1S","A",202100001,98.5);
-
-/* Generar Acta -----------------------------------------------------------------------*/
-
-CALL generarActa(0006,"1S","A");
-
-SELECT COUNT(nt.carnet) FROM nota nt  WHERE nt.id_habilitacion=1;
-SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=1 AND dsg.id_habilitacion=1;
-
-
-
-SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=id_habilitacion_hab AND dsg.id_habilitacion=id_habilitacion_hab INTO cantidad_asignados_habilitado;
-
-/*------------------------------------------------EXTRAS--------------------------------------------------------------------------*/
-INSERT INTO habilitacion (ciclo,seccion,cupo_maximo,fecha_creacion,codigo,siif) VALUE ("1S","A",110,"2024-10-19",101,11101600);
- SELECT DATE_FORMAT(STR_TO_DATE('30-10-1999','%d-%m-%Y'), '%Y-%m-%d');
-select * from carrera;	
-select * from estudiante;
-select * from curso;	
-
-select * from habilitacion;	
-select * from horario;	
-select * from asignacion;	
-select * from docente;	
-select * from desasignacion;	
-select * from nota;	
-select * from acta;	
-
-drop table estudiante;
-drop table carrera;
-drop table horario;
-drop table docente;
-drop table curso;
-drop table habilitacion;
-drop table asignacion;
-drop table desasignacion;
-drop table nota;
-drop table acta;
-

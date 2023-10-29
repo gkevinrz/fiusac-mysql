@@ -20,7 +20,13 @@ CREATE FUNCTION IF NOT EXISTS isPositive(i_numero INTEGER)
 	# 0 si es 0
     # 1 si es sin signo
     #-1 con signo
-    
+CREATE FUNCTION IF NOT EXISTS isPositive_Nota(i_numero DECIMAL)
+	RETURNS TINYINT DETERMINISTIC
+    RETURN SIGN(i_numero);
+	# 0 si es 0
+    # 1 si es sin signo
+    #-1 con signo
+
     
  # Function verificar ciclo   
  CREATE FUNCTION IF NOT EXISTS verificarCiclo(i_ciclo VARCHAR(3))

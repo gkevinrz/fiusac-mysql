@@ -39,7 +39,6 @@ CREATE TABLE IF NOT EXISTS docente
  dpi BIGINT NOT NULL UNIQUE
  );
  
- 
  # Tabla Curso --------------------------------------------------
 CREATE TABLE IF NOT EXISTS curso
 (codigo INTEGER NOT NULL PRIMARY KEY,
@@ -49,45 +48,6 @@ CREATE TABLE IF NOT EXISTS curso
  obligatorio         TINYINT  NOT NULL,
  id_carrera  INTEGER UNSIGNED NOT NULL,
  FOREIGN KEY (id_carrera) REFERENCES carrera (id_carrera)
-);
-
-
- # Tabla Acta --------------------------------------------------
-CREATE TABLE IF NOT EXISTS acta
-(id_acta INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-codigo INTEGER UNSIGNED NOT NULL,
-fecha_hora DATETIME NOT NULL,
-ciclo VARCHAR(3) NOT NULL,
-seccion CHAR(1)    NOT NULL,
-FOREIGN KEY (codigo) REFERENCES curso (codigo)
-);
-
-
- # Tabla Notas  --------------------------------------------------
-CREATE TABLE IF NOT EXISTS nota
-(id_nota INTEGER UNSIGNED NOT NULL  AUTO_INCREMENT PRIMARY KEY,
- codigo INTEGER UNSIGNED NOT NULL,
- carnet BIGINT UNSIGNED NOT NULL,
- anio DATE NOT NULL,
- ciclo VARCHAR(3) NOT NULL,
- seccion CHAR(1)    NOT NULL,
- nota SMALLINT UNSIGNED NOT NULL,
- FOREIGN KEY (codigo) REFERENCES curso (codigo),
-  FOREIGN KEY (carnet) REFERENCES estudiante (carnet)
-);
-
-
-  # Tabla asignacion --------------------------------------------
-CREATE TABLE IF NOT EXISTS asignacion
-(id_asignacion INTEGER UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
- ciclo   VARCHAR(3) NOT NULL,
- seccion CHAR(1)    NOT NULL,
- codigo INTEGER UNSIGNED NOT NULL,
- carnet BIGINT UNSIGNED NOT NULL,
- id_habilitacion INTEGER UNSIGNED NOT NULL,
- FOREIGN KEY (codigo) REFERENCES curso (codigo),
- FOREIGN KEY (carnet) REFERENCES estudiante(carnet),
-  FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 );
 
 # Table Habilitacion------------------------------------------------------------
@@ -104,7 +64,6 @@ CREATE TABLE IF NOT EXISTS habilitacion
  FOREIGN KEY (siif) REFERENCES docente (siif)
 );
 
-
 # Tabla horario --------------------------------------------
 CREATE TABLE IF NOT EXISTS horario
 (id_horario INTEGER UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -114,45 +73,58 @@ CREATE TABLE IF NOT EXISTS horario
  FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 );
 
-show tables;
-SELECT * FROM estudiante;
-INSERT INTO carrera (nombre) VALUE ('Ingeniería en Ciencias y Sistemas');	
-#-------------------------------------------------------------------
-describe curso;
-SELECT * FROM curso;
-INSERT INTO curso VALUES
-(10,"IO2",30,10,0,1),
-(11,"COMPI 2",60,20,1,1);
-#---------------------------------------------------------------
-describe docente;
-SELECT * FROM docente;
-
-INSERT INTO docente VALUES
-
-(201907371,"Julie","Fredi","2023-06-26","jfretdi6@photobucket.com",55792116,"53922 Waubesa Center",3072061889948),
-(201904842,"Bette","Eglington","2023-04-17","besglington7@loc.gov",44342211,"482 Oak Valley Terrace",3076193512650);
-#----------------------------
-describe habilitacion;
-SELECT * FROM habilitacion;
-INSERT INTO habilitacion (ciclo,seccion,cantidad_asignados,cupo_maximo,fecha_creacion,codigo,siif) VALUES
-("VD","A",1,10,"2023-06-26",10,201907371),
-("VD","B",1,10,"2023-06-27",11,201904842);
-#------------------------------------------------------------
-describe asignacion;
-SELECT * FROM asignacion;
-
-INSERT INTO asignacion (ciclo,seccion,codigo,carnet) VALUES
-("VD","A",10,201907374),
-("VD","B",11,201904845);
+# Tabla asignacion --------------------------------------------
+CREATE TABLE IF NOT EXISTS asignacion
+(id_asignacion INTEGER UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+ ciclo   VARCHAR(3) NOT NULL,
+ seccion CHAR(1)    NOT NULL,
+ codigo INTEGER UNSIGNED NOT NULL,
+ carnet BIGINT UNSIGNED NOT NULL,
+ id_habilitacion INTEGER UNSIGNED NOT NULL,
+fecha_creacion DATE NOT NULL,
+ FOREIGN KEY (codigo) REFERENCES curso (codigo),
+ FOREIGN KEY (carnet) REFERENCES estudiante(carnet),
+  FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
+);
+# Table desasignacion -------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS desasignacion
+(id_desasignacion INTEGER UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+ ciclo   VARCHAR(3) NOT NULL,
+ seccion CHAR(1)    NOT NULL,
+ codigo INTEGER UNSIGNED NOT NULL,
+ carnet BIGINT UNSIGNED NOT NULL,
+ id_habilitacion INTEGER UNSIGNED NOT NULL,
+ fecha_creacion DATE NOT NULL,
+ FOREIGN KEY (codigo) REFERENCES curso (codigo),
+ FOREIGN KEY (carnet) REFERENCES estudiante(carnet),
+FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
+);
 
 
+ # Tabla Notas  --------------------------------------------------
+CREATE TABLE IF NOT EXISTS nota
+(id_nota INTEGER UNSIGNED NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+ codigo INTEGER UNSIGNED NOT NULL,
+ carnet BIGINT UNSIGNED NOT NULL,
+ ciclo VARCHAR(3) NOT NULL,
+ seccion CHAR(1)    NOT NULL,
+ nota SMALLINT NOT NULL,
+ fecha_creacion DATE NOT NULL,
+ id_habilitacion INTEGER UNSIGNED NOT NULL,
+ FOREIGN KEY (codigo) REFERENCES curso (codigo),
+ FOREIGN KEY (carnet) REFERENCES estudiante (carnet),
+ FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 
+);
+ # Tabla Acta --------------------------------------------------
+CREATE TABLE IF NOT EXISTS acta
+(id_acta INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+codigo INTEGER UNSIGNED NOT NULL,
+fecha_hora DATETIME NOT NULL,
+ciclo VARCHAR(3) NOT NULL,
+seccion CHAR(1)    NOT NULL,
+id_habilitacion INTEGER UNSIGNED NOT NULL,
+FOREIGN KEY (codigo) REFERENCES curso (codigo),
+ FOREIGN KEY (id_habilitacion) REFERENCES habilitacion(id_habilitacion)
 
-
-
-		# CREATE PROCEDURE Get_Products()
-       #BEGIN
-       #SELECT *  FROM products;
-      # END //
-#mysql> DELIMITER ;
-#mysql> call get_products;
+);
