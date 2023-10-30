@@ -277,7 +277,7 @@ CREATE PROCEDURE IF NOT EXISTS asignarCurso(
 		DECLARE f_seccion_valida TINYINT DEFAULT 1; #bool-> formato seccion valido
 		
         DECLARE id_habilitacion_asignacion INTEGER UNSIGNED; #guarda el id habilitacion
-         DECLARE id_habilitacion_hab INTEGER UNSIGNED; #guarda el id habilitacion
+		DECLARE id_habilitacion_hab INTEGER UNSIGNED; #guarda el id habilitacion
 
         DECLARE existe_seccion TINYINT  DEFAULT 1; 
 		DECLARE existe_ciclo TINYINT  DEFAULT 1;
@@ -736,7 +736,11 @@ CREATE PROCEDURE IF NOT EXISTS generarActa(
 				SELECT id_habilitacion FROM habilitacion WHERE i_ciclo=ciclo AND i_seccion=seccion AND i_codigo_curso=codigo AND YEAR(CURDATE())=YEAR(fecha_creacion) INTO id_habilitacion_hab;
 				SELECT cantidad_asignados FROM habilitacion  WHERE id_habilitacion_hab=id_habilitacion INTO hay_asignados;
                 
-				SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=id_habilitacion_hab AND dsg.id_habilitacion=id_habilitacion_hab INTO cantidad_asignados_habilitado;
+				SELECT COUNT(est.carnet)
+				FROM estudiante est 
+				INNER JOIN asignacion ON asignacion.carnet=est.carnet AND asignacion.id_habilitacion=id_habilitacion_hab AND est.carnet NOT IN (SELECT carnet FROM desasignacion WHERE id_habilitacion=id_habilitacion_hab) into cantidad_asignados_habilitado ;
+
+                
                 SELECT COUNT(nt.carnet) FROM nota nt  WHERE nt.id_habilitacion=id_habilitacion_hab INTO cantidad_notas_habilitado;
 				
                 SELECT EXISTS(SELECT id_acta FROM acta WHERE id_habilitacion=id_habilitacion_hab) INTO acta_repetida;

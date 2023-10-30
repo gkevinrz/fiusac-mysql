@@ -92,6 +92,7 @@ CALL habilitarCurso(0006,"VJ",1,110,"P");
 CALL habilitarCurso(0006,"2S",1,110,"A");
 CALL habilitarCurso(0006,"2S",1,110,"B");
 
+CALL habilitarCurso(101,"1S",2,110,"C");
 
 
 
@@ -124,9 +125,15 @@ call agregarHorario(4,3,'07:00-09:00');
 call agregarHorario(4,4,'07:00-09:00');
 call agregarHorario(4,5,'07:00-09:00');
 
+
+call agregarHorario(5,1,'07:00-09:00');
+call agregarHorario(5,2,'10:00-10:50');
+call agregarHorario(5,3,'07:00-09:00');
+call agregarHorario(5,4,'07:00-09:00');
+call agregarHorario(5,5,'07:00-09:00');
+
+
 /* -----------------------------------------*/
-
-
 
 # Asignar Curso -------------------------------------------------------------
 
@@ -134,7 +141,16 @@ CALL asignarCurso(0006,"1S","A",202000001);
 CALL asignarCurso(0006,"1S","A",202000002);
 CALL asignarCurso(0006,"1S","A",202000003);
 CALL asignarCurso(0006,"1S","A",202100001);
+CALL asignarCurso(0006,"1S","A",202200001);
 
+CALL asignarCurso(0006,"2S","A",201710161);
+CALL asignarCurso(0006,"2S","A",201710160);
+CALL asignarCurso(0006,"2S","A",202300002);
+CALL asignarCurso(0006,"2S","A",202300001);
+CALL asignarCurso(0006,"2S","A",202200001);
+
+
+CALL asignarCurso(101,"1S","C",202100002);
 
 #Prueba año 2024
 CALL asignarCurso2(101,"1S","A",201906558);
@@ -150,19 +166,37 @@ SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE 
 /* Ingreso de notas ------------------------------------------------------------------------*/
 CALL ingresarNota(0006,"1S","A",202000002,60.5);
 CALL ingresarNota(0006,"1S","A",202000003,98.5);
-
 CALL ingresarNota(0006,"1S","A",202100001,98.5);
+CALL ingresarNota(0006,"1S","A",202200001,45.43);
+
+CALL ingresarNota(0006,"2S","A",201710161,60.5);
+CALL ingresarNota(0006,"2S","A",201710160,98.5);
+CALL ingresarNota(0006,"2S","A",202300002,98.5);
+CALL ingresarNota(0006,"2S","A",202300001,45.43);
+CALL ingresarNota(0006,"2S","A",202200001,100);
+
+CALL ingresarNota(101,"1S","C",202100002,60.5);
 
 /* Generar Acta -----------------------------------------------------------------------*/
+				SELECT COUNT(est.carnet)
+				FROM estudiante est 
+				INNER JOIN asignacion ON asignacion.carnet=est.carnet AND asignacion.id_habilitacion=1 AND est.carnet NOT IN (SELECT carnet FROM desasignacion WHERE id_habilitacion=3);
+			
+
 
 CALL generarActa(0006,"1S","A");
+CALL generarActa(0006,"2S","A");
+CALL generarActa(101,"1S","C");
+
+
+SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=id_habilitacion_hab AND dsg.id_habilitacion=id_habilitacion_hab INTO cantidad_asignados_habilitado;
 
 SELECT COUNT(nt.carnet) FROM nota nt  WHERE nt.id_habilitacion=1;
 SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=1 AND dsg.id_habilitacion=1;
 
 
 
-SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND  asg.id_habilitacion=id_habilitacion_hab AND dsg.id_habilitacion=id_habilitacion_hab INTO cantidad_asignados_habilitado;
+SELECT COUNT(asg.carnet) FROM asignacion asg INNER JOIN desasignacion dsg WHERE asg.carnet<>dsg.carnet AND asg.id_habilitacion=3 AND dsg.id_habilitacion=3;
 
 /*------------------------------------------------EXTRAS--------------------------------------------------------------------------*/
 INSERT INTO habilitacion (ciclo,seccion,cupo_maximo,fecha_creacion,codigo,siif) VALUE ("1S","A",110,"2024-10-19",101,11101600);
@@ -170,11 +204,16 @@ INSERT INTO habilitacion (ciclo,seccion,cupo_maximo,fecha_creacion,codigo,siif) 
 select * from carrera;	
 select * from estudiante;
 select * from curso;	
+select * from docente;	
+            SELECT est.carnet AS 'Carnet' ,CONCAT(est.nombres," ",est.apellidos) AS 'Nombre Completo', est.creditos AS 'Creditos'
+            FROM estudiante est 
+            INNER JOIN desasignacion ON est.carnet<>desasignacion.carnet AND desasignacion.id_habilitacion=2
+            INNER JOIN asignacion ON asignacion.carnet=est.carnet AND 2=asignacion.id_habilitacion;
+
 
 select * from habilitacion;	
 select * from horario;	
 select * from asignacion;	
-select * from docente;	
 select * from desasignacion;	
 select * from nota;	
 select * from acta;	
